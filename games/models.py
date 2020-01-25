@@ -45,7 +45,7 @@ class Game(models.Model):
             self.columns)] for i in range(self.rows)]
         mines_count = self.mines
 
-        while mines_count >= 0:
+        while mines_count > 0:
             x = random.randint(0, self.columns - 1)
             y = random.randint(0, self.rows - 1)
             if real_board[y][x] != constants.CELL_MINE:
