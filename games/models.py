@@ -20,8 +20,6 @@ class Game(models.Model):
     mines = models.IntegerField(default=10)
     difficulty = models.IntegerField(
         choices=constants.DIFFICULTY_CHOICES, default=constants.DIFFICULTY_EASY)
-    duration = models.IntegerField(default=0)
-    score = models.IntegerField(default=0)
     seed = models.IntegerField(null=True)
 
     class Meta:
