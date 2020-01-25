@@ -1,8 +1,10 @@
 # Game Status
-STATUS_PLAYING = 0
-STATUS_WON = 1
-STATUS_LOST = 2
+STATUS_CREATED = 0
+STATUS_PLAYING = 1
+STATUS_WON = 2
+STATUS_LOST = 3
 STATUS_CHOICES = (
+    (STATUS_CREATED, 'created'),
     (STATUS_PLAYING, 'playing'),
     (STATUS_WON, 'won'),
     (STATUS_LOST, 'lost'),

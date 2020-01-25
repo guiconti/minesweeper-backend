@@ -12,7 +12,7 @@ class Game(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     created = models.DateTimeField(auto_now_add=True)
     status = models.IntegerField(
-        choices=constants.STATUS_CHOICES, default=constants.STATUS_PLAYING)
+        choices=constants.STATUS_CHOICES, default=constants.STATUS_CREATED)
     real_board = models.TextField(blank=True, default='')
     player_board = models.TextField(blank=True, default='')
     rows = models.IntegerField(default=9)
@@ -37,29 +37,39 @@ class Game(models.Model):
         super(Game, self).save(*args, **kwargs)
 
     def _generate_boards(self):
-        random.seed(self.seed)
-
         real_board = [[constants.CELL_EMPTY for j in range(
             self.columns)] for i in range(self.rows)]
         player_board = [[constants.CELL_UNKNOWN for j in range(
             self.columns)] for i in range(self.rows)]
+        
+        self.real_board = json.dumps(real_board)
+        self.player_board = json.dumps(player_board)
+
+    def _fill_mines(self, blocked_x, blocked_y):
+        real_board = json.loads(self.real_board)
+        player_board = json.loads(self.player_board)
         mines_count = self.mines
+        random.seed(self.seed)
 
         while mines_count > 0:
             x = random.randint(0, self.columns - 1)
             y = random.randint(0, self.rows - 1)
-            if real_board[y][x] != constants.CELL_MINE:
+            non_blocked_cell = x != blocked_x and y != blocked_y
+            if real_board[y][x] != constants.CELL_MINE and non_blocked_cell:
                 real_board[y][x] = constants.CELL_MINE
                 mines_count -= 1
 
         self.real_board = json.dumps(real_board)
         self.player_board = json.dumps(player_board)
+        self.status = constants.STATUS_PLAYING
 
     def is_over(self):
         return self.status == constants.STATUS_LOST or self.status == constants.STATUS_WON
 
     def mark_open(self, x, y):
         player_board = json.loads(self.player_board)
+        if self.status == constants.STATUS_CREATED:
+            self._fill_mines(x, y)
         if player_board[y][x] not in constants.VALID_CELLS_TO_OPEN:
             return
         real_board = json.loads(self.real_board)
