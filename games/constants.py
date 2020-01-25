@@ -19,7 +19,8 @@ DIFFICULTY_CHOICES = (
 )
 
 # Game cell options
-EMPTY_SPACE = '.'
-MINE = 'M'
-FLAG = 'F'
-QUESTION = '?'
+CELL_EMPTY = '.'
+CELL_UNKNOWN = '*'
+CELL_MINE = 'M'
+CELL_FLAG = 'F'
+CELL_QUESTION = '?'
