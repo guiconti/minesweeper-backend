@@ -99,8 +99,8 @@ class Game(models.Model):
             for direction_x, direction_y in constants.CELL_ADJACENT_DIRECTIONS:
                 current_y = y + direction_y
                 current_x = x + direction_x
-                valid_y = current_y > 0 and current_y < self.rows
-                valid_x = current_x > 0 and current_x < self.columns
+                valid_y = current_y >= 0 and current_y < self.rows
+                valid_x = current_x >= 0 and current_x < self.columns
                 if valid_y and valid_x and real_board[current_y][current_x] == constants.CELL_MINE:
                     real_board[y][x] += 1
 
