@@ -1,5 +1,5 @@
 from rest_framework.decorators import action
-from rest_framework import status, viewsets
+from rest_framework import status, serializers, viewsets
 from django.shortcuts import get_object_or_404
 from games.models import Game
 from games.serializers import GameSerializer, NewGameSerializer, GameMarkSerializer
@@ -22,13 +22,15 @@ class GameViewSet(viewsets.ViewSet):
     return Response(serializer.data, status=status.HTTP_201_CREATED)
 
   def retrieve(self, request, pk=None):
-    game = get_object_or_404(self.queryset, pk=pk)
+    uuid = serializers.UUIDField().to_internal_value(data=pk)
+    game = get_object_or_404(self.queryset, pk=uuid)
     serializer = GameSerializer(game)
     return Response(serializer.data)
 
   @action(detail=True, methods=['patch'])
   def open(self, request, pk=None):
-    game = get_object_or_404(self.queryset, pk=pk)
+    uuid = serializers.UUIDField().to_internal_value(data=pk)
+    game = get_object_or_404(self.queryset, pk=uuid)
     if game.is_over():
       return Response(status=status.HTTP_400_BAD_REQUEST)
     serializer = GameMarkSerializer(
@@ -48,7 +50,8 @@ class GameViewSet(viewsets.ViewSet):
     
   @action(detail=True, methods=['patch'])
   def flag(self, request, pk=None):
-    game = get_object_or_404(self.queryset, pk=pk)
+    uuid = serializers.UUIDField().to_internal_value(data=pk)
+    game = get_object_or_404(self.queryset, pk=uuid)
     if game.is_over():
       return Response(status=status.HTTP_400_BAD_REQUEST)
     serializer = GameMarkSerializer(
@@ -68,7 +71,8 @@ class GameViewSet(viewsets.ViewSet):
   
   @action(detail=True, methods=['patch'])
   def question(self, request, pk=None):
-    game = get_object_or_404(self.queryset, pk=pk)
+    uuid = serializers.UUIDField().to_internal_value(data=pk)
+    game = get_object_or_404(self.queryset, pk=uuid)
     if game.is_over():
       return Response(status=status.HTTP_400_BAD_REQUEST)
     serializer = GameMarkSerializer(
