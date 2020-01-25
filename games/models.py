@@ -29,7 +29,16 @@ class Game(models.Model):
     return self.player_board
 
   def save(self, *args, **kwargs):
-    real_board, player_board = generate_boards(self.rows, self.columns, self.mines, self.seed)
-    self.real_board = json.dumps(real_board)
-    self.player_board = json.dumps(player_board)
+    if not self.pk:
+      real_board, player_board = generate_boards(self.rows, self.columns, self.mines, self.seed)
+      self.real_board = json.dumps(real_board)
+      self.player_board = json.dumps(player_board)
     super(Game, self).save(*args, **kwargs)
+
+  def mark_flag(self, x, y):
+    board = json.loads(self.player_board)
+    if board[y][x] == constants.CELL_UNKNOWN:
+      board[y][x] = constants.CELL_FLAG
+    elif board[y][x] == constants.CELL_FLAG:
+      board[y][x] = constants.CELL_UNKNOWN
+    self.player_board = json.dumps(board)

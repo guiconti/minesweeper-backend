@@ -3,7 +3,6 @@ from rest_framework import serializers
 from games.models import Game
 import games.constants as constants
 
-
 class GameSerializer(serializers.ModelSerializer):
   board = serializers.SerializerMethodField()
 
@@ -16,7 +15,6 @@ class GameSerializer(serializers.ModelSerializer):
     board = json.loads(obj.player_board)
     return board
 
-
 class NewGameSerializer(serializers.Serializer):
   difficulty = serializers.IntegerField(
     min_value=constants.DIFFICULTY_EASY,
@@ -25,7 +23,6 @@ class NewGameSerializer(serializers.Serializer):
     required=False
   )
   seed = serializers.IntegerField(required=False)
-
 
 class GameMarkSerializer(serializers.Serializer):
   x = serializers.IntegerField(min_value=0)

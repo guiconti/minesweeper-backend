@@ -3,7 +3,6 @@ import random
 
 # TODO: Change to receive difficulty
 def generate_boards(rows, columns, mines, seed=None):
-  print(seed);
   random.seed(seed)
 
   real_board = [[constants.CELL_EMPTY for j in range(
@@ -17,6 +16,6 @@ def generate_boards(rows, columns, mines, seed=None):
     if real_board[y][x] != constants.CELL_MINE:
       real_board[y][x] = constants.CELL_MINE
       mines -= 1
-  print(real_board)   
+
   return real_board, player_board
 
