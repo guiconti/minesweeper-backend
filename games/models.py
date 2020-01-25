@@ -104,18 +104,18 @@ class Game(models.Model):
                 if valid_y and valid_x and real_board[current_y][current_x] == constants.CELL_MINE:
                     real_board[y][x] += 1
 
+            real_board[y][x] = str(real_board[y][x])
             player_board[y][x] = real_board[y][x]
-
-            if real_board[y][x] == 0:
+            
+            if real_board[y][x] == '0':
                 player_board[y][x] = constants.CELL_EMPTY
                 for direction_x, direction_y in constants.CELL_ADJACENT_DIRECTIONS:
                     current_y = y + direction_y
                     current_x = x + direction_x
-                    valid_y = current_y > 0 and current_y < self.rows
-                    valid_x = current_x > 0 and current_x < self.columns
+                    valid_y = current_y >= 0 and current_y < self.rows
+                    valid_x = current_x >= 0 and current_x < self.columns
                     if valid_y and valid_x and real_board[current_y][current_x] == constants.CELL_EMPTY:
-                        remaining_cells_queue.put(
-                            (x + direction_x, y + direction_y))
+                        remaining_cells_queue.put((current_x, current_y))
 
         self.real_board = json.dumps(real_board)
         self.player_board = json.dumps(player_board)
@@ -141,6 +141,6 @@ class Game(models.Model):
         for y in range(self.rows):
             for x in range(self.columns):
                 if real_board[y][x] == constants.CELL_MINE:
-                    player_board[y][x] == constants.CELL_MINE
+                    player_board[y][x] = constants.CELL_MINE
         self.real_board = json.dumps(real_board)
         self.player_board = json.dumps(player_board)
