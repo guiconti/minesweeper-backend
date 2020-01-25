@@ -28,10 +28,32 @@ class GameViewSet(viewsets.ViewSet):
     game = get_object_or_404(self.queryset, pk=pk)
     serializer = GameSerializer(game)
     return Response(serializer.data)
+
+  @action(detail=True, methods=['post'])
+  def open(self, request, pk=None):
+    game = get_object_or_404(self.queryset, pk=pk)
+    if game.is_over():
+      return Response(status=status.HTTP_400_BAD_REQUEST)
+    serializer = GameMarkSerializer(
+      data=request.data,
+      context={
+        'rows': game.rows,
+        'columns': game.columns
+      }
+    )
+    if serializer.is_valid(raise_exception=True):
+      x = serializer.validated_data['x']
+      y = serializer.validated_data['y']
+      game.mark_open(x, y)
+      game.save()
+    serializer = GameSerializer(game)
+    return Response(serializer.data)
     
   @action(detail=True, methods=['post'])
   def flag(self, request, pk=None):
     game = get_object_or_404(self.queryset, pk=pk)
+    if game.is_over():
+      return Response(status=status.HTTP_400_BAD_REQUEST)
     serializer = GameMarkSerializer(
       data=request.data,
       context={
@@ -50,6 +72,8 @@ class GameViewSet(viewsets.ViewSet):
   @action(detail=True, methods=['post'])
   def question(self, request, pk=None):
     game = get_object_or_404(self.queryset, pk=pk)
+    if game.is_over():
+      return Response(status=status.HTTP_400_BAD_REQUEST)
     serializer = GameMarkSerializer(
       data=request.data,
       context={

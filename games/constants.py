@@ -24,3 +24,6 @@ CELL_UNKNOWN = '*'
 CELL_MINE = 'M'
 CELL_FLAG = 'F'
 CELL_QUESTION = '?'
+VALID_CELLS_TO_OPEN = (CELL_UNKNOWN, CELL_FLAG, CELL_QUESTION)
+CELL_ADJACENT_DIRECTIONS = [(-1, -1), (0, -1), (1, -1), (1, 0),
+                            (1, 1), (0, 1), (-1, 1), (-1, 0)]
