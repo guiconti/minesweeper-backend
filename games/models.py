@@ -32,6 +32,7 @@ class Game(models.Model):
 
     def save(self, *args, **kwargs):
         if not self.real_board:
+            self.rows, self.columns, self.mines = constants.GAME_PARAMETERS[self.difficulty]
             self._generate_boards()
         super(Game, self).save(*args, **kwargs)
 

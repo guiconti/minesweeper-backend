@@ -15,9 +15,6 @@ class GameViewSet(viewsets.ViewSet):
       game = Game()
       # Rows, Columns and Mines will be removed from here
       # They will be automatically set when board is created based on difficulty
-      game.rows = 9
-      game.columns = 9
-      game.mines = 10
       game.difficulty = serializer.validated_data.get('difficulty')
       game.seed = serializer.validated_data.get('seed', None)
       game.save()

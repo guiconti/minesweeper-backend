@@ -18,6 +18,13 @@ DIFFICULTY_CHOICES = (
     (DIFFICULTY_HARD, 'hard'),
 )
 
+# Game row, column and mine parameters
+GAME_PARAMETERS = {
+    DIFFICULTY_EASY: (9, 9, 10),
+    DIFFICULTY_INTERMEDIATE: (16, 16, 40),
+    DIFFICULTY_HARD: (24, 24, 99)
+}
+
 # Game cell options
 CELL_EMPTY = '.'
 CELL_UNKNOWN = '*'
