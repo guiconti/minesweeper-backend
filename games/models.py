@@ -37,8 +37,16 @@ class Game(models.Model):
 
   def mark_flag(self, x, y):
     board = json.loads(self.player_board)
-    if board[y][x] == constants.CELL_UNKNOWN:
+    if board[y][x] == constants.CELL_UNKNOWN or board[y][x] == constants.CELL_QUESTION:
       board[y][x] = constants.CELL_FLAG
     elif board[y][x] == constants.CELL_FLAG:
+      board[y][x] = constants.CELL_UNKNOWN
+    self.player_board = json.dumps(board)
+
+  def mark_question(self, x, y):
+    board = json.loads(self.player_board)
+    if board[y][x] == constants.CELL_UNKNOWN or board[y][x] == constants.CELL_FLAG:
+      board[y][x] = constants.CELL_QUESTION
+    elif board[y][x] == constants.CELL_QUESTION:
       board[y][x] = constants.CELL_UNKNOWN
     self.player_board = json.dumps(board)
