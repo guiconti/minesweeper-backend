@@ -9,7 +9,7 @@ class GameSerializer(serializers.ModelSerializer):
   class Meta:
     model = Game
     fields = ('id', 'status', 'board', 'rows', 'columns',
-              'mines', 'difficulty', 'duration', 'score', 'seed')
+              'mines', 'difficulty', 'seed')
 
   def get_board(self, obj):
     board = json.loads(obj.player_board)

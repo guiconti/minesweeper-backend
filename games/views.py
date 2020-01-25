@@ -13,8 +13,6 @@ class GameViewSet(viewsets.ViewSet):
     game = None
     if serializer.is_valid(raise_exception=True):
       game = Game()
-      # Rows, Columns and Mines will be removed from here
-      # They will be automatically set when board is created based on difficulty
       game.difficulty = serializer.validated_data.get('difficulty')
       game.seed = serializer.validated_data.get('seed', None)
       game.save()
