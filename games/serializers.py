@@ -25,5 +25,16 @@ class NewGameSerializer(serializers.Serializer):
   seed = serializers.IntegerField(required=False)
 
 class GameMarkSerializer(serializers.Serializer):
+
+  def validate_x(self, value):
+    if value >= self.context.get('columns'):
+      raise serializers.ValidationError('X value is bigger that the amount of columns.')
+    return value
+
+  def validate_y(self, value):
+    if value >= self.context.get('rows'):
+      raise serializers.ValidationError('Y value is bigger that the amount of rows.')
+    return value
+
   x = serializers.IntegerField(min_value=0)
   y = serializers.IntegerField(min_value=0)
