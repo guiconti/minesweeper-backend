@@ -26,7 +26,7 @@ class GameViewSet(viewsets.ViewSet):
     serializer = GameSerializer(game)
     return Response(serializer.data)
 
-  @action(detail=True, methods=['post'])
+  @action(detail=True, methods=['patch'])
   def open(self, request, pk=None):
     game = get_object_or_404(self.queryset, pk=pk)
     if game.is_over():
@@ -46,7 +46,7 @@ class GameViewSet(viewsets.ViewSet):
     serializer = GameSerializer(game)
     return Response(serializer.data)
     
-  @action(detail=True, methods=['post'])
+  @action(detail=True, methods=['patch'])
   def flag(self, request, pk=None):
     game = get_object_or_404(self.queryset, pk=pk)
     if game.is_over():
@@ -66,7 +66,7 @@ class GameViewSet(viewsets.ViewSet):
     serializer = GameSerializer(game)
     return Response(serializer.data)
   
-  @action(detail=True, methods=['post'])
+  @action(detail=True, methods=['patch'])
   def question(self, request, pk=None):
     game = get_object_or_404(self.queryset, pk=pk)
     if game.is_over():
