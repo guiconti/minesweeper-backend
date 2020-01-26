@@ -1,10 +1,9 @@
 import json
 from django.test import TestCase
-from rest_framework.test import APIRequestFactory
 from games.models import Game
 import games.constants as constants
 
-class GameTestCase(TestCase):
+class GamesModelsTestCase(TestCase):
     def test_game_created_with_no_params_should_have_all_params(self):
         game = Game.objects.create()
         self.assertIsNotNone(game.created)
