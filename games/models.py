@@ -84,6 +84,8 @@ class Game(models.Model):
         elif board[y][x] == constants.CELL_FLAG:
             board[y][x] = constants.CELL_UNKNOWN
         self.player_board = json.dumps(board)
+        if self._is_finished():
+            self._won_game()
 
     def mark_question(self, x, y):
         board = json.loads(self.player_board)
