@@ -8,5 +8,5 @@ router = routers.DefaultRouter()
 router.register(r'games', GameViewSet, basename='games')
 
 urlpatterns = [
-  path('v1/', include(router.urls)),
+    path('v1/', include(router.urls)),
 ]
