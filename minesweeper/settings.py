@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'corsheaders',
     'rest_framework',
+    'channels'
 ]
 
 MIDDLEWARE = [
@@ -126,3 +127,11 @@ CORS_ORIGIN_WHITELIST = (
     'http://0.0.0.0:3000',
     'http://localhost:3000',
 )
+
+ASGI_APPLICATION = 'minesweeper.routing.application'
+
+CHANNEL_LAYERS={
+    'default': {
+        'BACKEND': 'channels.layers.InMemoryChannelLayer'
+     }
+}

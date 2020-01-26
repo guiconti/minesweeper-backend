@@ -3,6 +3,7 @@ import json
 import random
 import queue
 from django.db import models
+from games.utils import send_update_notification
 import games.constants as constants
 
 app_name = 'games'
@@ -33,6 +34,7 @@ class Game(models.Model):
             self.rows, self.columns, self.mines = constants.GAME_PARAMETERS[self.difficulty]
             self._generate_boards()
         super(Game, self).save(*args, **kwargs)
+        send_update_notification(self.id)
 
     def _generate_boards(self):
         real_board = [[constants.CELL_EMPTY for j in range(
