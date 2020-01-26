@@ -66,7 +66,7 @@ class GamesViewsTestCase(TestCase):
         response = self.client.get('/minesweeper/v1/games/test/')
         self.assertEqual(response.status_code, 400)
 
-    def test_retrieved_game_board_should_only_includes_maked_data(self):
+    def test_retrieved_game_board_should_only_includes_masked_data(self):
         body = json.dumps({
             'difficulty': 0
         })

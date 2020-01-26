@@ -35,11 +35,31 @@ class GamesModelsTestCase(TestCase):
         game.mark_flag(0, 0)
         self.assertIn(constants.CELL_FLAG, game.player_board)
 
-    def test_game_will_only_have_questoion_after_first_flagging(self):
+    def test_flagging_a_flagged_cell_with_turn_it_to_unknown(self):
+        game = Game.objects.create()
+        self.assertNotIn(constants.CELL_FLAG, game.player_board)
+        game.mark_flag(0, 0)
+        board = json.loads(game.player_board)
+        self.assertEqual(board[0][0], constants.CELL_FLAG)
+        game.mark_flag(0, 0)
+        board = json.loads(game.player_board)
+        self.assertEqual(board[0][0], constants.CELL_UNKNOWN)
+
+    def test_game_will_only_have_question_after_first_questioning(self):
         game = Game.objects.create()
         self.assertNotIn(constants.CELL_QUESTION, game.player_board)
         game.mark_question(0, 0)
         self.assertIn(constants.CELL_QUESTION, game.player_board)
+
+    def test_questioning_a_questioned_cell_with_turn_it_to_unknown(self):
+        game = Game.objects.create()
+        self.assertNotIn(constants.CELL_QUESTION, game.player_board)
+        game.mark_question(0, 0)
+        board = json.loads(game.player_board)
+        self.assertEqual(board[0][0], constants.CELL_QUESTION)
+        game.mark_question(0, 0)
+        board = json.loads(game.player_board)
+        self.assertEqual(board[0][0], constants.CELL_UNKNOWN)
 
     def test_game_status_changes_to_lost_when_opening_a_mine(self):
         game = Game.objects.create()
